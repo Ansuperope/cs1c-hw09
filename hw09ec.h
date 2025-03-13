@@ -9,6 +9,13 @@
 #include <iostream> // cout
 using namespace std;
 
+/*******************************************************************************
+ * 
+ ******************************************************************************/
+void DrawShape() {
+
+}
+
 class Shape {
     public:
         // CONSTRUCTOR
@@ -30,9 +37,41 @@ class Shape {
                  << "\nHeight: " << y << endl;
         } // END void Print()
 
-        virtual void Move();
+        /***********************************************************************
+         * Move()
+         * ---------------------------------------------------------------------
+         * This function will change the object dimensions but not save it
+         *      mx  - how much to move x
+         *      my  - how much to move y
+         * ---------------------------------------------------------------------
+         * PRE-CONDITIONS
+         *      none
+         * 
+         * POST-CONDITIONS
+         *      none
+        ***********************************************************************/
+        virtual void Move(const int mx, const int my) {
+            cout << "Moving object: " << mx << " horizontally"
+                                      << my << " vertically." << endl;
+                                      
+            x + mx;
+            y + my;
+        } // END Move()
 
-// ... add Move virtual function (does this make sense?)
+        /***********************************************************************
+         * UpdateDimensions()
+         * ---------------------------------------------------------------------
+         * This function will update an object's dimension(s)
+         * Function definition will be defined in derived classes
+         * ---------------------------------------------------------------------
+         * PRE-CONDITIONS
+         *      none
+         * 
+         * POST-CONDITIONS
+         *      shape dimensions changed
+        ***********************************************************************/
+       virtual void UpdateDimensions(int mx, int my) {}
+
 // ... add UpdateDimensions pure virtual function
     private:
         int x; // x-coordinate
@@ -43,14 +82,13 @@ class Shape {
 
 class Circle : public Shape {
     public:
-
         // CONSTRUCTOR
         Circle (int r) : r{r} { }
 
         /***********************************************************************
          * Print()
          * ---------------------------------------------------------------------
-         * This function will only print object dimensions
+         * Overrides Shape. This function will only print object dimensions
          * ---------------------------------------------------------------------
          * PRE-CONDITIONS
          *      none
@@ -61,8 +99,41 @@ class Circle : public Shape {
         void Print(const int r) {
             cout << "Radius: " << r << endl;
         } // END void Print()
-//... override Print // static polymorphism
-//... override UpdateDimensions // dynamic polymorphism
+
+        /***********************************************************************
+         * Move()
+         * ---------------------------------------------------------------------
+         * Redefines Shape class. This function will change the object
+         * dimensions but not save it
+         *      mr  - how much to move radius
+         * ---------------------------------------------------------------------
+         * PRE-CONDITIONS
+         *      none
+         * 
+         * POST-CONDITIONS
+         *      none
+        ***********************************************************************/
+        void Move(const int mr) const {
+            cout << "Moving circle: " << mr << endl;
+            r + mr;
+        } // END Move()
+
+        /***********************************************************************
+         * UpdateDimensions()
+         * ---------------------------------------------------------------------
+         * This function will update an object's dimension(s)
+         * Function definition will be defined in derived classes
+         * ---------------------------------------------------------------------
+         * PRE-CONDITIONS
+         *      none
+         * 
+         * POST-CONDITIONS
+         *      r - changed by mr
+        ***********************************************************************/
+        void UpdateDimensions(const int mr) {
+            r =+ mr;
+        } // END UpdateDimensions()
+
     private:
         int r; // radius
 }; // END class Circle
@@ -77,7 +148,7 @@ class Rectangle : public Shape {
         /***********************************************************************
          * Print()
          * ---------------------------------------------------------------------
-         * This function will only print object dimensions
+         * Overrides Shape. This function will only print object dimensions
          * ---------------------------------------------------------------------
          * PRE-CONDITIONS
          *      none
@@ -90,8 +161,24 @@ class Rectangle : public Shape {
                  << "\nWidth: " << w << endl;
         } // END void Print()
 
-//... override Print // static polymorphism
-//... override UpdateDimensions // dynamic polymorphism
+        /***********************************************************************
+         * UpdateDimensions()
+         * ---------------------------------------------------------------------
+         * This function will update an object's dimension(s)
+         * Function definition will be defined in derived classes
+         * ---------------------------------------------------------------------
+         * PRE-CONDITIONS
+         *      none
+         * 
+         * POST-CONDITIONS
+         *      l - changed by ml
+         *      w - changed by mw
+        ***********************************************************************/
+        void UpdateDimensions(const int ml, const int mw) override {
+            l =+ ml;
+            w =+ mw;
+        } // END UpdateDimensions()
+
     private:
         int l; // length
         int w; // width
